@@ -21,19 +21,13 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
           replacements = {
+            'Chargingndo…':'Loading…',
             'lang="es"':'lang="en"',
             'Panel privado de actividad':'Private activity dashboard',
             'PC · Teléfono · Actividad · Logs · Pantalla':'PC · Phone · Activity · Logs · Screen',
             'Cerrar sesión':'Log out',
-            'Resumen':'Overview',
-            'Actividad':'Activity',
-            'Pantalla PC':'PC Screen',
-            'Teléfono':'Phone',
-            'Sin datos':'No data',
-            'Proceso':'Process',
             'PC y teléfono separados. Cada panel se puede minimizar.':'PC and phone shown separately. Each panel can be minimized.',
             'Eventos técnicos del sistema.':'System technical events.',
-            'Sistema':'System',
             'Pantalla del PC':'PC Screen',
             'Esperando transmisión…':'Waiting for stream…',
             'Pantalla completa':'Full screen',
@@ -44,25 +38,32 @@ jobs:
             'No se pudo conectar con la transmisión':'Could not connect to the stream',
             'Error de transmisión':'Streaming error',
             'Sesión expirada':'Session expired',
-            'Contraseña':'Password',
-            'Entrar':'Sign in',
+            'No hay actividad registrada.':'No activity recorded.',
+            'No se pudieron cargar los logs. Verificá que el servidor tenga /api/logs.':'Could not load logs. Check that the server has /api/logs.',
+            'Sin datos':'No data',
             'Sin actividad':'No activity',
             'Desconocida':'Unknown',
             'Batería':'Battery',
             'Carga':'Charging',
             'Paquete':'Package',
-            'Sí':'Yes',
-            'No hay actividad registrada.':'No activity recorded.',
-            'Cargando…':'Loading…',
-            'No hay logs.':'No logs.',
-            'No se pudieron cargar los logs. Verificá que el servidor tenga /api/logs.':'Could not load logs. Check that the server has /api/logs.',
+            'Teléfono':'Phone',
+            'Proceso':'Process',
+            'Sistema':'System',
             'Ajustes':'Settings',
             'Google Fotos':'Google Photos',
             'Mensajes':'Messages',
             'Evento':'Event',
+            'Cargando…':'Loading…',
+            'No hay logs.':'No logs.',
+            'Resumen':'Overview',
+            'Actividad':'Activity',
+            'Pantalla PC':'PC Screen',
+            'Contraseña':'Password',
+            'Entrar':'Sign in',
+            'Sí':'Yes',
           }
-          for a,b in replacements.items():
-              s = s.replace(a,b)
+          for a, b in replacements.items():
+              s = s.replace(a, b)
           p.write_text(s, encoding='utf-8')
           PY
       - name: Commit translation
@@ -76,5 +77,3 @@ jobs:
             git commit -m 'Translate dashboard UI to English'
             git push
           fi
-
-# Trigger translation workflow
