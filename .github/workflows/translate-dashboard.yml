@@ -76,3 +76,5 @@ jobs:
             git commit -m 'Translate dashboard UI to English'
             git push
           fi
+
+# Trigger translation workflow
