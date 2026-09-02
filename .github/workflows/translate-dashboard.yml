@@ -1,0 +1,78 @@
+name: Translate dashboard UI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/translate-dashboard.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Translate visible UI text
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          replacements = {
+            'lang="es"':'lang="en"',
+            'Panel privado de actividad':'Private activity dashboard',
+            'PC · Teléfono · Actividad · Logs · Pantalla':'PC · Phone · Activity · Logs · Screen',
+            'Cerrar sesión':'Log out',
+            'Resumen':'Overview',
+            'Actividad':'Activity',
+            'Pantalla PC':'PC Screen',
+            'Teléfono':'Phone',
+            'Sin datos':'No data',
+            'Proceso':'Process',
+            'PC y teléfono separados. Cada panel se puede minimizar.':'PC and phone shown separately. Each panel can be minimized.',
+            'Eventos técnicos del sistema.':'System technical events.',
+            'Sistema':'System',
+            'Pantalla del PC':'PC Screen',
+            'Esperando transmisión…':'Waiting for stream…',
+            'Pantalla completa':'Full screen',
+            'Transmisión detenida':'Stream stopped',
+            'Conectando transmisión…':'Connecting to stream…',
+            'Transmitiendo pantalla en tiempo real':'Streaming screen in real time',
+            'Transmisión desconectada':'Stream disconnected',
+            'No se pudo conectar con la transmisión':'Could not connect to the stream',
+            'Error de transmisión':'Streaming error',
+            'Sesión expirada':'Session expired',
+            'Contraseña':'Password',
+            'Entrar':'Sign in',
+            'Sin actividad':'No activity',
+            'Desconocida':'Unknown',
+            'Batería':'Battery',
+            'Carga':'Charging',
+            'Paquete':'Package',
+            'Sí':'Yes',
+            'No hay actividad registrada.':'No activity recorded.',
+            'Cargando…':'Loading…',
+            'No hay logs.':'No logs.',
+            'No se pudieron cargar los logs. Verificá que el servidor tenga /api/logs.':'Could not load logs. Check that the server has /api/logs.',
+            'Ajustes':'Settings',
+            'Google Fotos':'Google Photos',
+            'Mensajes':'Messages',
+            'Evento':'Event',
+          }
+          for a,b in replacements.items():
+              s = s.replace(a,b)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit translation
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          if git diff --cached --quiet; then
+            echo 'No changes needed'
+          else
+            git commit -m 'Translate dashboard UI to English'
+            git push
+          fi
