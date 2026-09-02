@@ -1,317 +1,655 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Activity</title>
+<title>My Activity</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #0f1117;
-            color: #ffffff;
-        }
+:root {
+    --bg: #090b10;
+    --panel: #11151d;
+    --panel2: #171c25;
+    --border: #272e3a;
+    --text: #ffffff;
+    --muted: #8b95a5;
+    --green: #55e878;
+    --red: #ff6464;
+    --blue: #6c8cff;
+    --yellow: #ffd166;
+}
 
-        .container {
-            width: min(1100px, 94%);
-            margin: 0 auto;
-            padding: 30px 0 50px;
-        }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(108,140,255,.08), transparent 35%),
+        var(--bg);
+    color: var(--text);
+}
 
-        header {
-            margin-bottom: 30px;
-        }
+button,
+input {
+    font: inherit;
+}
 
-        h1 {
-            margin: 0;
-            font-size: 34px;
-        }
+button {
+    cursor: pointer;
+}
 
-        .subtitle {
-            margin-top: 8px;
-            color: #9ca3af;
-            font-size: 16px;
-        }
+.hidden {
+    display: none !important;
+}
 
-        .connection {
-            margin-top: 15px;
-            padding: 10px 14px;
-            border-radius: 10px;
-            background: #191d27;
-            color: #9ca3af;
-            font-size: 14px;
-        }
+.container {
+    width: min(1200px, 94%);
+    margin: auto;
+    padding: 28px 0 60px;
+}
 
-        .connection.online {
-            color: #7ee787;
-        }
+/* =========================
+   LOGIN
+========================= */
 
-        .connection.offline {
-            color: #ff7b72;
-        }
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
 
-        .devices {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 20px;
-        }
+.login-card {
+    width: min(420px, 100%);
+    background: rgba(17,21,29,.95);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 32px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.45);
+}
 
-        .card {
-            background: #181c25;
-            border: 1px solid #292f3b;
-            border-radius: 18px;
-            padding: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+.login-card h1 {
+    margin: 0;
+    font-size: 32px;
+}
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
+.login-subtitle {
+    color: var(--muted);
+    margin: 10px 0 26px;
+    line-height: 1.5;
+}
 
-        .device-name {
-            font-size: 21px;
-            font-weight: bold;
-        }
+.login-label {
+    display: block;
+    color: #aeb7c5;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
 
-        .status {
-            padding: 6px 10px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: bold;
-        }
+.login-input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #090c12;
+    color: white;
+    outline: none;
+}
 
-        .status.online {
-            background: rgba(46, 160, 67, 0.15);
-            color: #7ee787;
-        }
+.login-input:focus {
+    border-color: var(--blue);
+}
 
-        .status.offline {
-            background: rgba(248, 81, 73, 0.15);
-            color: #ff7b72;
-        }
+.login-button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--blue);
+    color: white;
+    font-weight: bold;
+}
 
-        .activity {
-            font-size: 27px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            word-break: break-word;
-        }
+.login-error {
+    min-height: 20px;
+    margin-top: 12px;
+    color: var(--red);
+    font-size: 13px;
+}
 
-        .details {
-            color: #a1a8b3;
-            min-height: 24px;
-            word-break: break-word;
-        }
+/* =========================
+   HEADER
+========================= */
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 25px;
-        }
+header {
+    margin-bottom: 20px;
+}
 
-        .info {
-            background: #10131a;
-            padding: 14px;
-            border-radius: 12px;
-        }
+.header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
 
-        .info-label {
-            display: block;
-            color: #7d8590;
-            font-size: 12px;
-            margin-bottom: 6px;
-        }
+h1 {
+    margin: 0;
+    font-size: 36px;
+}
 
-        .info-value {
-            font-size: 15px;
-            word-break: break-word;
-        }
+.subtitle {
+    margin-top: 7px;
+    color: var(--muted);
+}
 
-        .history {
-            margin-top: 25px;
-        }
+.logout {
+    padding: 9px 13px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--panel);
+    color: #aeb7c5;
+}
 
-        .history h2 {
-            margin: 0 0 15px;
-            font-size: 22px;
-        }
+.logout:hover {
+    color: white;
+}
 
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+.connection {
+    margin-top: 18px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+}
 
-        .history-item {
-            background: #181c25;
-            border: 1px solid #292f3b;
-            border-radius: 12px;
-            padding: 15px;
-        }
+.connection.online {
+    color: var(--green);
+}
 
-        .history-top {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-        }
+.connection.offline {
+    color: var(--red);
+}
 
-        .history-activity {
-            font-weight: bold;
-        }
+/* =========================
+   NAVIGATION
+========================= */
 
-        .history-time {
-            color: #7d8590;
-            font-size: 12px;
-            white-space: nowrap;
-        }
+.nav {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0;
+    padding: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow-x: auto;
+}
 
-        .history-details {
-            color: #9ca3af;
-            margin-top: 6px;
-            font-size: 14px;
-            word-break: break-word;
-        }
+.nav-button {
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--muted);
+    padding: 11px 16px;
+    white-space: nowrap;
+    font-weight: bold;
+}
 
-        .empty {
-            color: #7d8590;
-            padding: 20px 0;
-        }
+.nav-button:hover {
+    color: white;
+}
 
-        /* LOGIN */
+.nav-button.active {
+    background: var(--panel2);
+    color: white;
+}
 
-        .login-screen {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+/* =========================
+   STATS
+========================= */
 
-        .login-card {
-            width: min(420px, 100%);
-            background: #181c25;
-            border: 1px solid #292f3b;
-            border-radius: 18px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
 
-        .login-card h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
+.stat {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+}
 
-        .login-subtitle {
-            color: #9ca3af;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
+.stat-label {
+    color: var(--muted);
+    font-size: 12px;
+}
 
-        .login-label {
-            display: block;
-            color: #a1a8b3;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
+.stat-value {
+    margin-top: 7px;
+    font-size: 23px;
+    font-weight: bold;
+}
 
-        .login-input {
-            width: 100%;
-            padding: 13px 14px;
-            border-radius: 10px;
-            border: 1px solid #343b49;
-            background: #10131a;
-            color: #ffffff;
-            outline: none;
-            font-size: 15px;
-        }
+/* =========================
+   DEVICES
+========================= */
 
-        .login-input:focus {
-            border-color: #5865f2;
-        }
+.devices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
 
-        .login-button {
-            width: 100%;
-            margin-top: 15px;
-            padding: 13px;
-            border: 0;
-            border-radius: 10px;
-            background: #5865f2;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.card {
+    background: rgba(17,21,29,.95);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.18);
+}
 
-        .login-button:hover {
-            opacity: 0.9;
-        }
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 22px;
+}
 
-        .login-error {
-            min-height: 20px;
-            margin-top: 12px;
-            color: #ff7b72;
-            font-size: 13px;
-        }
+.device-name {
+    font-size: 21px;
+    font-weight: bold;
+}
 
-        .hidden {
-            display: none !important;
-        }
+.status {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+}
 
-        .logout {
-            float: right;
-            margin-top: -34px;
-            padding: 8px 12px;
-            border: 1px solid #343b49;
-            border-radius: 9px;
-            background: #181c25;
-            color: #9ca3af;
-            cursor: pointer;
-        }
+.status.online {
+    background: rgba(85,232,120,.12);
+    color: var(--green);
+}
 
-        .logout:hover {
-            color: #ffffff;
-        }
+.status.offline {
+    background: rgba(255,100,100,.12);
+    color: var(--red);
+}
 
-        @media (max-width: 750px) {
-            .devices {
-                grid-template-columns: 1fr;
-            }
+.activity {
+    font-size: 27px;
+    font-weight: bold;
+    line-height: 1.2;
+    word-break: break-word;
+}
 
-            .container {
-                padding-top: 20px;
-            }
+.details {
+    color: #a3adbb;
+    margin-top: 8px;
+    min-height: 22px;
+}
 
-            h1 {
-                font-size: 28px;
-            }
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+}
 
-            .activity {
-                font-size: 23px;
-            }
+.info {
+    background: #0b0f15;
+    border: 1px solid #1d2430;
+    border-radius: 13px;
+    padding: 13px;
+}
 
-            .logout {
-                float: none;
-                margin-top: 15px;
-            }
-        }
-    </style>
+.info-label {
+    display: block;
+    color: #778293;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.info-value {
+    font-size: 15px;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+/* =========================
+   BATTERY
+========================= */
+
+.battery-bar {
+    height: 7px;
+    background: #252c37;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.battery-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--green);
+    transition: width .3s ease;
+}
+
+/* =========================
+   HISTORY
+========================= */
+
+.section {
+    margin-top: 20px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 13px;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.small-button {
+    padding: 8px 11px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: #aeb7c5;
+}
+
+.small-button:hover {
+    color: white;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.history-item {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 14px;
+}
+
+.history-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.history-activity {
+    font-weight: bold;
+}
+
+.history-time {
+    color: #778293;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.history-details {
+    color: #9ba5b4;
+    margin-top: 6px;
+    font-size: 14px;
+}
+
+/* =========================
+   LOGS
+========================= */
+
+.logs-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.log-tabs {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.log-tab {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--muted);
+    border-radius: 10px;
+    padding: 9px 13px;
+}
+
+.log-tab.active {
+    background: var(--panel2);
+    color: white;
+}
+
+.log-panel {
+    background: #090c11;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.log-header {
+    padding: 13px 15px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.log-header-title {
+    font-weight: bold;
+}
+
+.log-body {
+    max-height: 620px;
+    overflow-y: auto;
+}
+
+.log-body.collapsed {
+    display: none;
+}
+
+.log-item {
+    padding: 13px 15px;
+    border-bottom: 1px solid #171c24;
+}
+
+.log-item:last-child {
+    border-bottom: 0;
+}
+
+.log-time {
+    color: #687385;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.log-message {
+    color: #dce2ea;
+    font-size: 14px;
+    word-break: break-word;
+}
+
+.log-extra {
+    margin-top: 6px;
+    color: #778293;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+.log-empty {
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* =========================
+   SCREEN
+========================= */
+
+.screen-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px;
+}
+
+.screen-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.screen-status {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.screen-viewer {
+    background: #05070a;
+    border: 1px solid #202631;
+    border-radius: 16px;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#screenImage {
+    display: block;
+    max-width: 100%;
+    max-height: 75vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.screen-placeholder {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--muted);
+}
+
+.screen-placeholder-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.screen-placeholder-title {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.screen-placeholder-text {
+    margin-top: 8px;
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 850px) {
+
+    .devices {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 94%;
+        padding-top: 20px;
+    }
+
+    h1 {
+        font-size: 29px;
+    }
+
+    .header-row {
+        display: block;
+    }
+
+    .logout {
+        margin-top: 14px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .activity {
+        font-size: 23px;
+    }
+
+    .screen-viewer {
+        min-height: 260px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
 <div id="loginScreen" class="login-screen">
+
     <div class="login-card">
+
         <h1>My Activity</h1>
 
         <div class="login-subtitle">
@@ -319,7 +657,8 @@
         </div>
 
         <form id="loginForm">
-            <label class="login-label" for="password">
+
+            <label class="login-label">
                 Dashboard password
             </label>
 
@@ -340,185 +679,388 @@
                 Sign In
             </button>
 
-            <div id="loginError" class="login-error"></div>
+            <div
+                id="loginError"
+                class="login-error"
+            ></div>
+
         </form>
+
     </div>
+
 </div>
 
 
-<!-- DASHBOARD -->
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
 <div id="dashboard" class="hidden">
 
-    <div class="container">
+<div class="container">
 
-        <header>
-            <button id="logoutButton" class="logout">
-                Sign Out
-            </button>
+<header>
+
+    <div class="header-row">
+
+        <div>
 
             <h1>My Activity</h1>
 
             <div class="subtitle">
-                See what I'm up to
+                Activity Monitor
             </div>
 
-            <div id="connection" class="connection">
-                Connecting to server...
+        </div>
+
+        <button
+            id="logoutButton"
+            class="logout"
+        >
+            Sign Out
+        </button>
+
+    </div>
+
+    <div
+        id="connection"
+        class="connection"
+    >
+        Connecting to server...
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     NAV
+========================================================= -->
+
+<nav class="nav">
+
+    <button
+        class="nav-button active"
+        data-page="overview"
+    >
+        🏠 Overview
+    </button>
+
+    <button
+        class="nav-button"
+        data-page="logs"
+    >
+        📋 Logs
+    </button>
+
+    <button
+        class="nav-button"
+        data-page="screen"
+    >
+        🖥️ PC Screen
+    </button>
+
+</nav>
+
+
+<!-- =========================================================
+     OVERVIEW
+========================================================= -->
+
+<section
+    id="page-overview"
+    class="page active"
+>
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                PC
             </div>
-        </header>
 
-
-        <div class="devices">
-
-            <!-- WINDOWS -->
-            <div class="card">
-
-                <div class="card-header">
-                    <div class="device-name">
-                        🖥️ My PC
-                    </div>
-
-                    <div
-                        id="windowsStatus"
-                        class="status offline"
-                    >
-                        Offline
-                    </div>
-                </div>
-
-                <div
-                    id="windowsActivity"
-                    class="activity"
-                >
-                    Waiting...
-                </div>
-
-                <div
-                    id="windowsDetails"
-                    class="details"
-                >
-                    —
-                </div>
-
-                <div class="info-grid">
-
-                    <div class="info">
-                        <span class="info-label">
-                            Application
-                        </span>
-
-                        <span
-                            id="windowsApp"
-                            class="info-value"
-                        >
-                            —
-                        </span>
-                    </div>
-
-                    <div class="info">
-                        <span class="info-label">
-                            Time
-                        </span>
-
-                        <span
-                            id="windowsTime"
-                            class="info-value"
-                        >
-                            —
-                        </span>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- ANDROID -->
-            <div class="card">
-
-                <div class="card-header">
-                    <div class="device-name">
-                        📱 My Phone
-                    </div>
-
-                    <div
-                        id="androidStatus"
-                        class="status offline"
-                    >
-                        Offline
-                    </div>
-                </div>
-
-                <div
-                    id="androidActivity"
-                    class="activity"
-                >
-                    Waiting...
-                </div>
-
-                <div
-                    id="androidDetails"
-                    class="details"
-                >
-                    —
-                </div>
-
-                <div class="info-grid">
-
-                    <div class="info">
-                        <span class="info-label">
-                            Application
-                        </span>
-
-                        <span
-                            id="androidApp"
-                            class="info-value"
-                        >
-                            —
-                        </span>
-                    </div>
-
-                    <div class="info">
-                        <span class="info-label">
-                            Battery
-                        </span>
-
-                        <span
-                            id="androidBattery"
-                            class="info-value"
-                        >
-                            —
-                        </span>
-                    </div>
-
-                    <div class="info">
-                        <span class="info-label">
-                            Charging
-                        </span>
-
-                        <span
-                            id="androidCharging"
-                            class="info-value"
-                        >
-                            —
-                        </span>
-                    </div>
-
-                </div>
+            <div
+                id="statPc"
+                class="stat-value"
+            >
+                Offline
             </div>
 
         </div>
 
 
-        <!-- HISTORY -->
-        <div class="history">
+        <div class="stat">
 
-            <h2>🕐 Recent Activity</h2>
+            <div class="stat-label">
+                Phone
+            </div>
 
             <div
-                id="historyList"
-                class="history-list"
+                id="statPhone"
+                class="stat-value"
             >
-                <div class="empty">
+                Offline
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Phone Battery
+            </div>
+
+            <div
+                id="statBattery"
+                class="stat-value"
+            >
+                —
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Screen
+            </div>
+
+            <div
+                id="statScreen"
+                class="stat-value"
+            >
+                Offline
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DEVICES -->
+
+    <div class="devices">
+
+        <!-- PC -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="device-name">
+                    🖥️ My PC
+                </div>
+
+                <div
+                    id="windowsStatus"
+                    class="status offline"
+                >
+                    Offline
+                </div>
+
+            </div>
+
+
+            <div
+                id="windowsActivity"
+                class="activity"
+            >
+                PC Offline
+            </div>
+
+
+            <div
+                id="windowsDetails"
+                class="details"
+            >
+                —
+            </div>
+
+
+            <div class="info-grid">
+
+                <div class="info">
+
+                    <span class="info-label">
+                        Application
+                    </span>
+
+                    <span
+                        id="windowsApp"
+                        class="info-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="info">
+
+                    <span class="info-label">
+                        Active for
+                    </span>
+
+                    <span
+                        id="windowsTime"
+                        class="info-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="device-name">
+                    📱 My Phone
+                </div>
+
+                <div
+                    id="androidStatus"
+                    class="status offline"
+                >
+                    Offline
+                </div>
+
+            </div>
+
+
+            <div
+                id="androidActivity"
+                class="activity"
+            >
+                Phone Offline
+            </div>
+
+
+            <div
+                id="androidDetails"
+                class="details"
+            >
+                —
+            </div>
+
+
+            <div class="info-grid">
+
+                <div class="info">
+
+                    <span class="info-label">
+                        Application
+                    </span>
+
+                    <span
+                        id="androidApp"
+                        class="info-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="info">
+
+                    <span class="info-label">
+                        Battery
+                    </span>
+
+                    <span
+                        id="androidBattery"
+                        class="info-value"
+                    >
+                        —
+                    </span>
+
+                    <div class="battery-bar">
+
+                        <div
+                            id="batteryFill"
+                            class="battery-fill"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <span class="info-label">
+                        Charging
+                    </span>
+
+                    <span
+                        id="androidCharging"
+                        class="info-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="info">
+
+                    <span class="info-label">
+                        Active for
+                    </span>
+
+                    <span
+                        id="androidTime"
+                        class="info-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECENT ACTIVITY -->
+
+    <div class="section">
+
+        <div class="section-title">
+
+            <h2>
+                🕐 Recent Activity
+            </h2>
+
+            <button
+                id="refreshHistory"
+                class="small-button"
+            >
+                Refresh
+            </button>
+
+        </div>
+
+
+        <div
+            id="historyList"
+            class="history-list"
+        >
+
+            <div class="history-item">
+                <div class="history-details">
                     Waiting for activity...
                 </div>
             </div>
@@ -527,766 +1069,1761 @@
 
     </div>
 
+</section>
+
+
+<!-- =========================================================
+     LOGS
+========================================================= -->
+
+<section
+    id="page-logs"
+    class="page"
+>
+
+    <div class="card">
+
+        <div class="section-title">
+
+            <h2>
+                📋 System Logs
+            </h2>
+
+            <button
+                id="clearLogs"
+                class="small-button"
+            >
+                Clear view
+            </button>
+
+        </div>
+
+
+        <div class="logs-toolbar">
+
+            <div class="log-tabs">
+
+                <button
+                    class="log-tab active"
+                    data-log-device="windows"
+                >
+                    🖥️ PC
+                </button>
+
+                <button
+                    class="log-tab"
+                    data-log-device="android"
+                >
+                    📱 Phone
+                </button>
+
+                <button
+                    class="log-tab"
+                    data-log-device="system"
+                >
+                    ⚙️ System
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="log-panel">
+
+            <div class="log-header">
+
+                <div
+                    id="logHeaderTitle"
+                    class="log-header-title"
+                >
+                    PC Logs
+                </div>
+
+                <button
+                    id="toggleLogs"
+                    class="small-button"
+                >
+                    Hide
+                </button>
+
+            </div>
+
+
+            <div
+                id="logBody"
+                class="log-body"
+            >
+
+                <div class="log-empty">
+                    Loading logs...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SCREEN
+========================================================= -->
+
+<section
+    id="page-screen"
+    class="page"
+>
+
+    <div class="screen-card">
+
+        <div class="screen-toolbar">
+
+            <div>
+
+                <h2 style="margin:0 0 5px;">
+                    🖥️ PC Screen
+                </h2>
+
+                <div
+                    id="screenStatus"
+                    class="screen-status"
+                >
+                    Checking screen...
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <button
+                    id="refreshScreen"
+                    class="small-button"
+                >
+                    🔄 Refresh
+                </button>
+
+                <button
+                    id="fullscreenScreen"
+                    class="small-button"
+                >
+                    ⛶ Fullscreen
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="screenViewer"
+            class="screen-viewer"
+        >
+
+            <div
+                id="screenPlaceholder"
+                class="screen-placeholder"
+            >
+
+                <div class="screen-placeholder-icon">
+                    🖥️
+                </div>
+
+                <div class="screen-placeholder-title">
+                    No screen available
+                </div>
+
+                <div class="screen-placeholder-text">
+                    Start the Windows Agent to share the PC screen.
+                </div>
+
+            </div>
+
+
+            <img
+                id="screenImage"
+                class="hidden"
+                alt="PC Screen"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
 </div>
 
 
 <script>
-    // --------------------------------------------------
-    // SERVER
-    // --------------------------------------------------
 
-    const SERVER =
-        "https://my-activity-monitor-50u2.onrender.com";
+/* =========================================================
+   SERVER
+========================================================= */
 
-
-    // --------------------------------------------------
-    // AUTH STORAGE
-    // --------------------------------------------------
-
-    const TOKEN_KEY =
-        "activity_monitor_dashboard_token";
+const SERVER =
+    "https://my-activity-monitor-50u2.onrender.com";
 
 
-    let token =
-        localStorage.getItem(TOKEN_KEY);
+/* =========================================================
+   AUTH
+========================================================= */
+
+const TOKEN_KEY =
+    "activity_monitor_dashboard_token";
+
+let token =
+    localStorage.getItem(TOKEN_KEY);
 
 
-    let statusInterval = null;
-    let historyInterval = null;
+/* =========================================================
+   INTERVALS
+========================================================= */
+
+let statusInterval = null;
+let historyInterval = null;
+let logsInterval = null;
+let screenInterval = null;
 
 
-    // --------------------------------------------------
-    // ELEMENTS
-    // --------------------------------------------------
+/* =========================================================
+   CURRENT STATE
+========================================================= */
 
-    const loginScreen =
-        document.getElementById("loginScreen");
+let currentLogDevice = "windows";
 
-    const dashboard =
-        document.getElementById("dashboard");
-
-    const loginForm =
-        document.getElementById("loginForm");
-
-    const passwordInput =
-        document.getElementById("password");
-
-    const loginButton =
-        document.getElementById("loginButton");
-
-    const loginError =
-        document.getElementById("loginError");
-
-    const logoutButton =
-        document.getElementById("logoutButton");
+let logsHidden = false;
 
 
-    // --------------------------------------------------
-    // HELPERS
-    // --------------------------------------------------
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-    function escapeHtml(value) {
-        if (
-            value === null ||
-            value === undefined
-        ) {
-            return "";
-        }
+const loginScreen =
+    document.getElementById("loginScreen");
 
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+const dashboard =
+    document.getElementById("dashboard");
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginError =
+    document.getElementById("loginError");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const connection =
+    document.getElementById("connection");
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
     }
 
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
-    function formatTime(timestamp) {
-        if (!timestamp) {
-            return "—";
-        }
 
-        const date =
-            new Date(timestamp);
+function formatTime(timestamp) {
 
-        return date.toLocaleTimeString([], {
+    if (!timestamp) {
+        return "—";
+    }
+
+    return new Date(timestamp)
+        .toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit"
         });
+}
+
+
+function elapsedTime(timestamp) {
+
+    if (!timestamp) {
+        return "—";
     }
 
-
-    function elapsedTime(timestamp) {
-        if (!timestamp) {
-            return "—";
-        }
-
-        const seconds =
+    const seconds =
+        Math.max(
+            0,
             Math.floor(
                 (Date.now() - timestamp) / 1000
-            );
+            )
+        );
 
-        if (seconds < 0) {
-            return "0s";
-        }
+    if (seconds < 60) {
+        return `${seconds}s`;
+    }
 
-        if (seconds < 60) {
-            return `${seconds}s`;
-        }
+    const minutes =
+        Math.floor(seconds / 60);
 
-        const minutes =
-            Math.floor(seconds / 60);
+    if (minutes < 60) {
+        return `${minutes}m`;
+    }
 
-        if (minutes < 60) {
-            return `${minutes}m`;
-        }
+    const hours =
+        Math.floor(minutes / 60);
 
-        const hours =
-            Math.floor(minutes / 60);
+    return `${hours}h ${minutes % 60}m`;
+}
 
-        return `${hours}h ${minutes % 60}m`;
+
+function prettyAndroidApp(app, packageName) {
+
+    const value =
+        app ||
+        packageName ||
+        "";
+
+
+    const knownApps = {
+
+        "com.instagram.android":
+            "Instagram",
+
+        "com.google.android.youtube":
+            "YouTube",
+
+        "com.android.chrome":
+            "Chrome",
+
+        "com.facebook.katana":
+            "Facebook",
+
+        "com.whatsapp":
+            "WhatsApp",
+
+        "com.discord":
+            "Discord",
+
+        "com.spotify.music":
+            "Spotify",
+
+        "com.netflix.mediaclient":
+            "Netflix",
+
+        "com.twitch.android.app":
+            "Twitch",
+
+        "com.google.android.gm":
+            "Gmail",
+
+        "com.google.android.apps.maps":
+            "Google Maps",
+
+        "com.google.android.googlequicksearchbox":
+            "Google",
+
+        "com.android.settings":
+            "Ajustes",
+
+        "com.google.android.apps.photos":
+            "Google Fotos",
+
+        "com.google.android.apps.messaging":
+            "Mensajes",
+
+        "com.android.vending":
+            "Google Play Store",
+
+        "com.google.android.calendar":
+            "Google Calendar",
+
+        "com.google.android.dialer":
+            "Teléfono",
+
+        "com.google.android.contacts":
+            "Contactos"
+    };
+
+
+    if (knownApps[value]) {
+        return knownApps[value];
+    }
+
+    if (knownApps[packageName]) {
+        return knownApps[packageName];
     }
 
 
-    // --------------------------------------------------
-    // AUTH FETCH
-    // --------------------------------------------------
-
-    async function authenticatedFetch(
-        url,
-        options = {}
+    if (
+        typeof value === "string" &&
+        value.includes(".")
     ) {
-        if (!token) {
-            throw new Error(
-                "Not authenticated"
+
+        const parts =
+            value.split(".");
+
+        const last =
+            parts[parts.length - 1];
+
+        if (last && last !== "android") {
+
+            return (
+                last.charAt(0).toUpperCase() +
+                last.slice(1)
             );
         }
+    }
 
-        const headers = {
-            ...(options.headers || {}),
-            "Authorization":
-                `Bearer ${token}`
-        };
 
-        const response =
-            await fetch(url, {
+    return value || "Desconocida";
+}
+
+
+/* =========================================================
+   AUTHENTICATED FETCH
+========================================================= */
+
+async function authenticatedFetch(
+    url,
+    options = {}
+) {
+
+    if (!token) {
+        throw new Error(
+            "Not authenticated"
+        );
+    }
+
+
+    const headers = {
+
+        ...(options.headers || {}),
+
+        "Authorization":
+            `Bearer ${token}`
+    };
+
+
+    const response =
+        await fetch(
+            url,
+            {
                 ...options,
                 headers
-            });
-
-        // Token expired / invalid
-        if (
-            response.status === 401 ||
-            response.status === 403
-        ) {
-            logout(false);
-
-            throw new Error(
-                "Authentication expired"
-            );
-        }
-
-        return response;
-    }
-
-
-    // --------------------------------------------------
-    // LOGIN
-    // --------------------------------------------------
-
-    async function login(password) {
-
-        loginError.textContent = "";
-
-        loginButton.disabled = true;
-        loginButton.textContent =
-            "Signing in...";
-
-        try {
-            const response =
-                await fetch(
-                    `${SERVER}/api/login`,
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-                            password
-                        })
-                    }
-                );
-
-            const data =
-                await response.json();
-
-            if (
-                !response.ok ||
-                !data.success ||
-                !data.token
-            ) {
-                throw new Error(
-                    data.error ||
-                    "Login failed"
-                );
             }
+        );
 
-            token = data.token;
 
-            localStorage.setItem(
-                TOKEN_KEY,
-                token
-            );
+    if (
+        response.status === 401 ||
+        response.status === 403
+    ) {
 
-            showDashboard();
+        logout(false);
 
-        } catch (error) {
-
-            console.error(
-                "Login error:",
-                error
-            );
-
-            loginError.textContent =
-                error.message ||
-                "Unable to sign in.";
-
-        } finally {
-
-            loginButton.disabled = false;
-            loginButton.textContent =
-                "Sign In";
-        }
+        throw new Error(
+            "Authentication expired"
+        );
     }
 
 
-    // --------------------------------------------------
-    // SHOW DASHBOARD
-    // --------------------------------------------------
-
-    function showDashboard() {
-
-        loginScreen.classList.add(
-            "hidden"
-        );
-
-        dashboard.classList.remove(
-            "hidden"
-        );
-
-        startUpdates();
-    }
+    return response;
+}
 
 
-    // --------------------------------------------------
-    // LOGOUT
-    // --------------------------------------------------
+/* =========================================================
+   LOGIN
+========================================================= */
 
-    function logout(clearToken = true) {
+async function login(password) {
 
-        if (clearToken) {
-            localStorage.removeItem(
-                TOKEN_KEY
+    loginError.textContent = "";
+
+    loginButton.disabled = true;
+
+    loginButton.textContent =
+        "Signing in...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${SERVER}/api/login`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        password
+                    })
+                }
             );
-        }
-
-        token = null;
-
-        stopUpdates();
-
-        dashboard.classList.add(
-            "hidden"
-        );
-
-        loginScreen.classList.remove(
-            "hidden"
-        );
-
-        passwordInput.value = "";
-        loginError.textContent = "";
-    }
 
 
-    // --------------------------------------------------
-    // STATUS
-    // --------------------------------------------------
+        const data =
+            await response.json();
 
-    function updateStatus(data) {
 
         if (
-            !data ||
-            !data.devices
+            !response.ok ||
+            !data.success ||
+            !data.token
         ) {
+
             throw new Error(
-                "Invalid server response"
+                data.error ||
+                "Login failed"
             );
         }
 
-        const windows =
-            data.devices.windows || {};
 
-        const android =
-            data.devices.android || {};
+        token =
+            data.token;
 
 
-        // ----------------------------------------------
-        // WINDOWS
-        // ----------------------------------------------
-
-        const windowsOnline =
-            windows.online === true;
-
-        const windowsStatus =
-            document.getElementById(
-                "windowsStatus"
-            );
-
-        windowsStatus.textContent =
-            windowsOnline
-                ? "Online"
-                : "Offline";
-
-        windowsStatus.className =
-            "status " +
-            (
-                windowsOnline
-                    ? "online"
-                    : "offline"
-            );
+        localStorage.setItem(
+            TOKEN_KEY,
+            token
+        );
 
 
+        showDashboard();
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        loginError.textContent =
+            error.message ||
+            "Unable to sign in.";
+
+
+    } finally {
+
+        loginButton.disabled = false;
+
+        loginButton.textContent =
+            "Sign In";
+    }
+}
+
+
+/* =========================================================
+   SHOW DASHBOARD
+========================================================= */
+
+function showDashboard() {
+
+    loginScreen.classList.add(
+        "hidden"
+    );
+
+    dashboard.classList.remove(
+        "hidden"
+    );
+
+    startUpdates();
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(clearToken = true) {
+
+    if (clearToken) {
+
+        localStorage.removeItem(
+            TOKEN_KEY
+        );
+    }
+
+
+    token = null;
+
+
+    stopUpdates();
+
+
+    dashboard.classList.add(
+        "hidden"
+    );
+
+    loginScreen.classList.remove(
+        "hidden"
+    );
+
+
+    passwordInput.value = "";
+
+    loginError.textContent = "";
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document
+    .querySelectorAll(".nav-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const page =
+                    button.dataset.page;
+
+
+                document
+                    .querySelectorAll(".nav-button")
+                    .forEach(btn => {
+                        btn.classList.remove(
+                            "active"
+                        );
+                    });
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                document
+                    .querySelectorAll(".page")
+                    .forEach(section => {
+
+                        section.classList.remove(
+                            "active"
+                        );
+                    });
+
+
+                document
+                    .getElementById(
+                        `page-${page}`
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+
+                if (page === "logs") {
+                    loadLogs();
+                }
+
+
+                if (page === "screen") {
+                    loadScreen();
+                }
+
+            }
+        );
+    });
+
+
+/* =========================================================
+   UPDATE STATUS
+========================================================= */
+
+function updateStatus(data) {
+
+    if (
+        !data ||
+        !data.devices
+    ) {
+        throw new Error(
+            "Invalid server response"
+        );
+    }
+
+
+    const windows =
+        data.devices.windows || {};
+
+
+    const android =
+        data.devices.android || {};
+
+
+    /* =========================
+       PC
+    ========================= */
+
+    const windowsOnline =
+        windows.online === true;
+
+
+    const windowsStatus =
         document.getElementById(
-            "windowsActivity"
-        ).textContent =
+            "windowsStatus"
+        );
+
+
+    windowsStatus.textContent =
+        windowsOnline
+            ? "Online"
+            : "Offline";
+
+
+    windowsStatus.className =
+        "status " +
+        (
             windowsOnline
-                ? (
-                    windows.activity ||
-                    "Unknown"
-                )
-                : "PC Offline";
+                ? "online"
+                : "offline"
+        );
 
 
+    document.getElementById(
+        "windowsActivity"
+    ).textContent =
+        windowsOnline
+            ? (
+                windows.activity ||
+                "Unknown"
+            )
+            : "PC Offline";
+
+
+    document.getElementById(
+        "windowsDetails"
+    ).textContent =
+        windowsOnline
+            ? (
+                windows.details ||
+                "—"
+            )
+            : "—";
+
+
+    document.getElementById(
+        "windowsApp"
+    ).textContent =
+        windowsOnline
+            ? (
+                windows.app ||
+                "—"
+            )
+            : "—";
+
+
+    document.getElementById(
+        "windowsTime"
+    ).textContent =
+        windowsOnline
+            ? elapsedTime(
+                windows.activityStartedAt
+            )
+            : "—";
+
+
+    document.getElementById(
+        "statPc"
+    ).textContent =
+        windowsOnline
+            ? "Online"
+            : "Offline";
+
+
+    /* =========================
+       PHONE
+    ========================= */
+
+    const androidOnline =
+        android.online === true;
+
+
+    const androidStatus =
         document.getElementById(
-            "windowsDetails"
-        ).textContent =
-            windowsOnline
-                ? (
-                    windows.details ||
-                    "—"
-                )
-                : "—";
+            "androidStatus"
+        );
 
 
-        document.getElementById(
-            "windowsApp"
-        ).textContent =
-            windowsOnline
-                ? (
-                    windows.app ||
-                    "—"
-                )
-                : "—";
+    androidStatus.textContent =
+        androidOnline
+            ? "Online"
+            : "Offline";
 
 
-        document.getElementById(
-            "windowsTime"
-        ).textContent =
-            windowsOnline
-                ? elapsedTime(
-                    windows.activityStartedAt
-                )
-                : "—";
-
-
-        // ----------------------------------------------
-        // ANDROID
-        // ----------------------------------------------
-
-        const androidOnline =
-            android.online === true;
-
-        const androidStatus =
-            document.getElementById(
-                "androidStatus"
-            );
-
-        androidStatus.textContent =
+    androidStatus.className =
+        "status " +
+        (
             androidOnline
-                ? "Online"
-                : "Offline";
+                ? "online"
+                : "offline"
+        );
 
-        androidStatus.className =
-            "status " +
-            (
-                androidOnline
-                    ? "online"
-                    : "offline"
-            );
+
+    const androidAppName =
+        prettyAndroidApp(
+            android.app,
+            android.package ||
+            android.details
+        );
+
+
+    document.getElementById(
+        "androidActivity"
+    ).textContent =
+        androidOnline
+            ? (
+                android.activity ||
+                "Usando teléfono"
+            )
+            : "Phone Offline";
+
+
+    document.getElementById(
+        "androidDetails"
+    ).textContent =
+        androidOnline
+            ? androidAppName
+            : "—";
+
+
+    document.getElementById(
+        "androidApp"
+    ).textContent =
+        androidOnline
+            ? androidAppName
+            : "—";
+
+
+    document.getElementById(
+        "androidTime"
+    ).textContent =
+        androidOnline
+            ? elapsedTime(
+                android.activityStartedAt
+            )
+            : "—";
+
+
+    document.getElementById(
+        "statPhone"
+    ).textContent =
+        androidOnline
+            ? "Online"
+            : "Offline";
+
+
+    if (
+        androidOnline &&
+        android.battery !== null &&
+        android.battery !== undefined
+    ) {
+
+        const battery =
+            Number(android.battery);
 
 
         document.getElementById(
-            "androidActivity"
+            "androidBattery"
         ).textContent =
-            androidOnline
-                ? (
-                    android.activity ||
-                    "Unknown"
-                )
-                : "Phone Offline";
+            `${battery}%`;
 
 
         document.getElementById(
-            "androidDetails"
+            "statBattery"
         ).textContent =
-            androidOnline
-                ? (
-                    android.details ||
-                    "—"
-                )
-                : "—";
+            `${battery}%`;
 
 
         document.getElementById(
-            "androidApp"
-        ).textContent =
-            androidOnline
-                ? (
-                    android.app ||
-                    "—"
+            "batteryFill"
+        ).style.width =
+            `${Math.max(
+                0,
+                Math.min(
+                    100,
+                    battery
                 )
-                : "—";
+            )}%`;
+
+    } else {
+
+        document.getElementById(
+            "androidBattery"
+        ).textContent =
+            "—";
 
 
-        if (
-            androidOnline &&
-            android.battery !== null &&
-            android.battery !== undefined
-        ) {
-
-            document.getElementById(
-                "androidBattery"
-            ).textContent =
-                `${android.battery}%`;
-
-        } else {
-
-            document.getElementById(
-                "androidBattery"
-            ).textContent = "—";
-        }
+        document.getElementById(
+            "statBattery"
+        ).textContent =
+            "—";
 
 
-        if (androidOnline) {
+        document.getElementById(
+            "batteryFill"
+        ).style.width =
+            "0%";
+    }
 
-            document.getElementById(
-                "androidCharging"
-            ).textContent =
+
+    document.getElementById(
+        "androidCharging"
+    ).textContent =
+        androidOnline
+            ? (
                 android.charging
                     ? "Yes"
-                    : "No";
+                    : "No"
+            )
+            : "—";
 
-        } else {
 
-            document.getElementById(
-                "androidCharging"
-            ).textContent = "—";
+    /* =========================
+       SCREEN
+    ========================= */
+
+    const screen =
+        data.screen || {};
+
+
+    const screenAvailable =
+        screen.available === true;
+
+
+    document.getElementById(
+        "statScreen"
+    ).textContent =
+        screenAvailable
+            ? "Available"
+            : "Offline";
+}
+
+
+/* =========================================================
+   LOAD STATUS
+========================================================= */
+
+async function loadStatus() {
+
+    try {
+
+        const response =
+            await authenticatedFetch(
+                `${SERVER}/api/status`,
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `HTTP ${response.status}`
+            );
         }
-    }
 
 
-    // --------------------------------------------------
-    // LOAD STATUS
-    // --------------------------------------------------
-
-    async function loadStatus() {
-
-        const connection =
-            document.getElementById(
-                "connection"
-            );
-
-        try {
-
-            const response =
-                await authenticatedFetch(
-                    `${SERVER}/api/status`,
-                    {
-                        method: "GET",
-                        cache: "no-store"
-                    }
-                );
+        const data =
+            await response.json();
 
 
-            if (!response.ok) {
-                throw new Error(
-                    `HTTP ${response.status}`
-                );
-            }
+        updateStatus(data);
 
 
-            const data =
-                await response.json();
+        connection.textContent =
+            "● Server connected";
 
 
-            updateStatus(data);
+        connection.className =
+            "connection online";
 
 
-            connection.textContent =
-                "Server connected";
+    } catch (error) {
 
-            connection.className =
-                "connection online";
-
-
-        } catch (error) {
-
-            console.error(
-                "Server connection error:",
-                error
-            );
+        console.error(
+            "Status error:",
+            error
+        );
 
 
-            if (
-                error.message ===
-                "Authentication expired"
-            ) {
-                return;
-            }
-
-
-            connection.textContent =
-                "Server Offline";
-
-            connection.className =
-                "connection offline";
-
-
-            document.getElementById(
-                "windowsStatus"
-            ).textContent = "Offline";
-
-            document.getElementById(
-                "windowsStatus"
-            ).className =
-                "status offline";
-
-            document.getElementById(
-                "windowsActivity"
-            ).textContent =
-                "Server Offline";
+        if (
+            error.message ===
+            "Authentication expired"
+        ) {
+            return;
         }
+
+
+        connection.textContent =
+            "● Server Offline";
+
+
+        connection.className =
+            "connection offline";
     }
+}
 
 
-    // --------------------------------------------------
-    // HISTORY
-    // --------------------------------------------------
+/* =========================================================
+   HISTORY
+========================================================= */
 
-    async function loadHistory() {
+async function loadHistory() {
 
-        const list =
-            document.getElementById(
-                "historyList"
-            );
+    const list =
+        document.getElementById(
+            "historyList"
+        );
 
-        try {
 
-            const response =
-                await authenticatedFetch(
+    try {
+
+        const [windowsResponse, androidResponse] =
+            await Promise.all([
+                authenticatedFetch(
                     `${SERVER}/api/history/windows`,
                     {
-                        method: "GET",
                         cache: "no-store"
                     }
-                );
+                ),
+                authenticatedFetch(
+                    `${SERVER}/api/history/android`,
+                    {
+                        cache: "no-store"
+                    }
+                )
+            ]);
 
 
-            if (!response.ok) {
-                throw new Error(
-                    `HTTP ${response.status}`
-                );
-            }
+        const windowsData =
+            await windowsResponse.json();
 
 
-            const data =
-                await response.json();
+        const androidData =
+            await androidResponse.json();
 
 
-            if (
-                !data ||
-                !Array.isArray(
-                    data.history
-                ) ||
-                data.history.length === 0
-            ) {
+        const windowsHistory =
+            Array.isArray(
+                windowsData.history
+            )
+                ? windowsData.history
+                : [];
 
-                list.innerHTML =
-                    `<div class="empty">
-                        No activity yet
-                    </div>`;
 
-                return;
-            }
+        const androidHistory =
+            Array.isArray(
+                androidData.history
+            )
+                ? androidData.history
+                : [];
 
+
+        const combined = [
+            ...windowsHistory.map(item => ({
+                ...item,
+                source: "PC"
+            })),
+            ...androidHistory.map(item => ({
+                ...item,
+                source: "Phone"
+            }))
+        ]
+        .sort(
+            (a, b) =>
+                (b.timestamp || 0) -
+                (a.timestamp || 0)
+        )
+        .slice(0, 30);
+
+
+        if (!combined.length) {
 
             list.innerHTML =
-                data.history
-                    .slice()
-                    .reverse()
-                    .map(item => {
+                `<div class="history-item">
+                    <div class="history-details">
+                        No activity yet.
+                    </div>
+                </div>`;
 
-                        return `
-                            <div class="history-item">
+            return;
+        }
 
-                                <div class="history-top">
 
-                                    <div class="history-activity">
-                                        ${escapeHtml(
-                                            item.activity ||
-                                            "Unknown"
-                                        )}
-                                    </div>
+        list.innerHTML =
+            combined
+                .map(item => {
 
-                                    <div class="history-time">
-                                        ${formatTime(
-                                            item.timestamp
-                                        )}
-                                    </div>
+                    const app =
+                        item.source === "Phone"
+                            ? prettyAndroidApp(
+                                item.app,
+                                item.package ||
+                                item.details
+                            )
+                            : (
+                                item.app ||
+                                item.details ||
+                                "Unknown"
+                            );
 
+
+                    return `
+                        <div class="history-item">
+
+                            <div class="history-top">
+
+                                <div class="history-activity">
+                                    ${escapeHtml(
+                                        item.activity ||
+                                        "Unknown"
+                                    )}
                                 </div>
 
-                                <div class="history-details">
-                                    ${escapeHtml(
-                                        item.details ||
-                                        item.app ||
-                                        "—"
+                                <div class="history-time">
+                                    ${formatTime(
+                                        item.timestamp
                                     )}
                                 </div>
 
                             </div>
-                        `;
-                    })
-                    .join("");
+
+                            <div class="history-details">
+                                ${escapeHtml(
+                                    item.source
+                                )}
+                                ·
+                                ${escapeHtml(
+                                    app
+                                )}
+                            </div>
+
+                        </div>
+                    `;
+                })
+                .join("");
 
 
-        } catch (error) {
+    } catch (error) {
 
-            console.error(
-                "History error:",
-                error
+        console.error(
+            "History error:",
+            error
+        );
+
+
+        list.innerHTML =
+            `<div class="history-item">
+                <div class="history-details">
+                    Unable to load activity history.
+                </div>
+            </div>`;
+    }
+}
+
+
+/* =========================================================
+   LOGS
+========================================================= */
+
+async function loadLogs() {
+
+    const body =
+        document.getElementById(
+            "logBody"
+        );
+
+
+    if (logsHidden) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await authenticatedFetch(
+                `${SERVER}/api/logs/${currentLogDevice}`,
+                {
+                    cache: "no-store"
+                }
             );
 
 
-            if (
-                error.message ===
-                "Authentication expired"
-            ) {
-                return;
-            }
+        if (!response.ok) {
+
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+        }
 
 
-            list.innerHTML =
-                `<div class="empty">
-                    Unable to load activity history
+        const data =
+            await response.json();
+
+
+        const logs =
+            Array.isArray(data.logs)
+                ? data.logs
+                : [];
+
+
+        const title =
+            currentLogDevice === "windows"
+                ? "PC Logs"
+                : currentLogDevice === "android"
+                    ? "Phone Logs"
+                    : "System Logs";
+
+
+        document.getElementById(
+            "logHeaderTitle"
+        ).textContent =
+            title;
+
+
+        if (!logs.length) {
+
+            body.innerHTML =
+                `<div class="log-empty">
+                    No logs yet.
                 </div>`;
-        }
-    }
 
-
-    // --------------------------------------------------
-    // UPDATE LOOP
-    // --------------------------------------------------
-
-    function startUpdates() {
-
-        stopUpdates();
-
-        loadStatus();
-        loadHistory();
-
-        statusInterval =
-            setInterval(
-                loadStatus,
-                1000
-            );
-
-        historyInterval =
-            setInterval(
-                loadHistory,
-                5000
-            );
-    }
-
-
-    function stopUpdates() {
-
-        if (statusInterval) {
-            clearInterval(
-                statusInterval
-            );
-
-            statusInterval = null;
+            return;
         }
 
-        if (historyInterval) {
-            clearInterval(
-                historyInterval
-            );
 
-            historyInterval = null;
-        }
+        body.innerHTML =
+            logs
+                .slice()
+                .reverse()
+                .map(log => {
+
+                    let extra = "";
+
+                    const copy = {
+                        ...log
+                    };
+
+                    delete copy.timestamp;
+                    delete copy.message;
+
+
+                    if (
+                        Object.keys(copy).length
+                    ) {
+
+                        extra =
+                            `<div class="log-extra">
+                                ${escapeHtml(
+                                    JSON.stringify(
+                                        copy,
+                                        null,
+                                        2
+                                    )
+                                )}
+                            </div>`;
+                    }
+
+
+                    return `
+                        <div class="log-item">
+
+                            <div class="log-time">
+                                ${formatTime(
+                                    log.timestamp
+                                )}
+                            </div>
+
+                            <div class="log-message">
+                                ${escapeHtml(
+                                    log.message ||
+                                    "Event"
+                                )}
+                            </div>
+
+                            ${extra}
+
+                        </div>
+                    `;
+                })
+                .join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "Logs error:",
+            error
+        );
+
+
+        body.innerHTML =
+            `<div class="log-empty">
+                Unable to load logs.
+            </div>`;
     }
+}
 
 
-    // --------------------------------------------------
-    // EVENTS
-    // --------------------------------------------------
+/* =========================================================
+   LOG TABS
+========================================================= */
 
-    loginForm.addEventListener(
-        "submit",
-        async (event) => {
+document
+    .querySelectorAll(".log-tab")
+    .forEach(button => {
 
-            event.preventDefault();
+        button.addEventListener(
+            "click",
+            () => {
 
-            const password =
-                passwordInput.value;
+                currentLogDevice =
+                    button.dataset.logDevice;
 
-            if (!password) {
-                loginError.textContent =
-                    "Enter your password.";
 
-                return;
+                document
+                    .querySelectorAll(".log-tab")
+                    .forEach(tab => {
+                        tab.classList.remove(
+                            "active"
+                        );
+                    });
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                loadLogs();
             }
-
-            await login(password);
-        }
-    );
+        );
+    });
 
 
-    logoutButton.addEventListener(
+/* =========================================================
+   COLLAPSE LOGS
+========================================================= */
+
+document
+    .getElementById("toggleLogs")
+    .addEventListener(
         "click",
         () => {
-            logout(true);
+
+            logsHidden =
+                !logsHidden;
+
+
+            const body =
+                document.getElementById(
+                    "logBody"
+                );
+
+
+            body.classList.toggle(
+                "collapsed",
+                logsHidden
+            );
+
+
+            document.getElementById(
+                "toggleLogs"
+            ).textContent =
+                logsHidden
+                    ? "Show"
+                    : "Hide";
         }
     );
 
 
-    // --------------------------------------------------
-    // START
-    // --------------------------------------------------
+/* =========================================================
+   CLEAR LOG VIEW
+========================================================= */
 
-    if (token) {
-        showDashboard();
-    } else {
-        loginScreen.classList.remove(
+document
+    .getElementById("clearLogs")
+    .addEventListener(
+        "click",
+        () => {
+
+            document.getElementById(
+                "logBody"
+            ).innerHTML =
+                `<div class="log-empty">
+                    Log view cleared.
+                </div>`;
+        }
+    );
+
+
+/* =========================================================
+   SCREEN
+========================================================= */
+
+async function loadScreen() {
+
+    const image =
+        document.getElementById(
+            "screenImage"
+        );
+
+
+    const placeholder =
+        document.getElementById(
+            "screenPlaceholder"
+        );
+
+
+    const status =
+        document.getElementById(
+            "screenStatus"
+        );
+
+
+    try {
+
+        const response =
+            await authenticatedFetch(
+                `${SERVER}/api/screen`,
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "No recent screen"
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.success ||
+            !data.data
+        ) {
+
+            throw new Error(
+                "No screen data"
+            );
+        }
+
+
+        image.src =
+            `data:${data.mime || "image/jpeg"};base64,${data.data}`;
+
+
+        image.classList.remove(
             "hidden"
         );
+
+
+        placeholder.classList.add(
+            "hidden"
+        );
+
+
+        status.textContent =
+            `Live snapshot · ${formatTime(
+                data.timestamp
+            )}`;
+
+
+    } catch (error) {
+
+        image.classList.add(
+            "hidden"
+        );
+
+
+        placeholder.classList.remove(
+            "hidden"
+        );
+
+
+        status.textContent =
+            "Screen unavailable";
     }
+}
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+document
+    .getElementById("fullscreenScreen")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const viewer =
+                document.getElementById(
+                    "screenViewer"
+                );
+
+
+            try {
+
+                if (
+                    document.fullscreenElement
+                ) {
+
+                    await document.exitFullscreen();
+
+                } else {
+
+                    await viewer.requestFullscreen();
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Fullscreen error:",
+                    error
+                );
+            }
+        }
+    );
+
+
+/* =========================================================
+   MANUAL REFRESH
+========================================================= */
+
+document
+    .getElementById("refreshHistory")
+    .addEventListener(
+        "click",
+        loadHistory
+    );
+
+
+document
+    .getElementById("refreshScreen")
+    .addEventListener(
+        "click",
+        loadScreen
+    );
+
+
+/* =========================================================
+   UPDATE LOOPS
+========================================================= */
+
+function startUpdates() {
+
+    stopUpdates();
+
+
+    loadStatus();
+
+    loadHistory();
+
+
+    statusInterval =
+        setInterval(
+            loadStatus,
+            1000
+        );
+
+
+    historyInterval =
+        setInterval(
+            loadHistory,
+            5000
+        );
+
+
+    /*
+     * Los logs solamente se actualizan
+     * mientras estamos en la pestaña Logs.
+     */
+
+    logsInterval =
+        setInterval(
+            () => {
+
+                const activePage =
+                    document.querySelector(
+                        ".page.active"
+                    );
+
+
+                if (
+                    activePage &&
+                    activePage.id ===
+                    "page-logs"
+                ) {
+
+                    loadLogs();
+                }
+
+            },
+            3000
+        );
+
+
+    /*
+     * La pantalla se actualiza cada 2 segundos.
+     */
+
+    screenInterval =
+        setInterval(
+            () => {
+
+                const activePage =
+                    document.querySelector(
+                        ".page.active"
+                    );
+
+
+                if (
+                    activePage &&
+                    activePage.id ===
+                    "page-screen"
+                ) {
+
+                    loadScreen();
+                }
+
+            },
+            2000
+        );
+}
+
+
+function stopUpdates() {
+
+    if (statusInterval) {
+
+        clearInterval(
+            statusInterval
+        );
+
+        statusInterval = null;
+    }
+
+
+    if (historyInterval) {
+
+        clearInterval(
+            historyInterval
+        );
+
+        historyInterval = null;
+    }
+
+
+    if (logsInterval) {
+
+        clearInterval(
+            logsInterval
+        );
+
+        logsInterval = null;
+    }
+
+
+    if (screenInterval) {
+
+        clearInterval(
+            screenInterval
+        );
+
+        screenInterval = null;
+    }
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+loginForm.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+        const password =
+            passwordInput.value;
+
+
+        if (!password) {
+
+            loginError.textContent =
+                "Enter your password.";
+
+            return;
+        }
+
+
+        await login(password);
+    }
+);
+
+
+logoutButton.addEventListener(
+    "click",
+    () => {
+        logout(true);
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+if (token) {
+
+    showDashboard();
+
+} else {
+
+    loginScreen.classList.remove(
+        "hidden"
+    );
+}
+
 </script>
 
 </body>
